@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "@prisma/client": "^6.5.0",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jest": "^29.7.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.2",
+    "prisma": "^6.5.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "name": "metrosp_back",
+  "version": "1.0.0",
+  "description": "sistema de perdidos e achados do metroSp",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "DannyDev",
+  "license": "ISC"
+}

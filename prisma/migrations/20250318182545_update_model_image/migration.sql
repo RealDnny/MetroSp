@@ -1,0 +1,13 @@
+-- CreateTable
+CREATE TABLE `Image` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `nameImg` VARCHAR(191) NOT NULL,
+    `pathImg` VARCHAR(191) NOT NULL,
+    `itemId` INTEGER NOT NULL,
+    `dataUpload` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Image` ADD CONSTRAINT `Image_itemId_fkey` FOREIGN KEY (`itemId`) REFERENCES `Item`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
