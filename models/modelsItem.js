@@ -1,4 +1,5 @@
 import prisma from '../prismaClient.js';
+import emailNotificacao from '../lib/Emailnotificacao.js'
 
 function HandleResponse(status, message, details = null) {
     return { status, message, details };
@@ -101,6 +102,7 @@ class modelItem {
             return HandleResponse(404,'Item nao atualizado ', statusItemAchado)
         }
         //IMPLEMENTAR O SISTEMA DE NOTIFICAÇÃO POR EMAIL
+        await emailNotificacao.emailnotificacao()
         
             return HandleResponse(200,'Status do item modificado ', itemAchado)
         } catch (error) {
