@@ -49,3 +49,8 @@ model Location {
   address  String?  // Endereço da estação (opcional)
   items    Item[]   // Itens perdidos/encontrados nessa estação
 }
+  await Prisma.image.deleteMany({
+      where: {
+        itemId: id, // Dependendo do nome da chave estrangeira
+      },
+    });

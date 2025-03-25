@@ -68,7 +68,7 @@ class modelItem {
             const itens = await prisma.item.findMany({where:{status:'found'}, 
                 include:{user:true,images:true}
             })
-            if(!itens.length == 0){
+            if(itens.length == 0){
                 HandleResponse(404,'Sem item achados')
             }
                return HandleResponse(200,'itens achados',itens)
@@ -102,7 +102,12 @@ class modelItem {
             return HandleResponse(404,'Item nao atualizado ', statusItemAchado)
         }
         //IMPLEMENTAR O SISTEMA DE NOTIFICAÇÃO POR EMAIL
-        await emailNotificacao.emailnotificacao()
+        try {
+            await emailNotificacao.emailnotificacao()    
+        } catch (error) {
+            return console.error('Erro interno com o servidor de Email '+ error.message)
+        }
+        
         
             return HandleResponse(200,'Status do item modificado ', itemAchado)
         } catch (error) {

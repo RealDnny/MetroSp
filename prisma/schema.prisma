@@ -39,6 +39,6 @@ model Image {
   nameImg          String
   pathImg          String 
   itemId           Int
-  item             Item          @relation(fields: [itemId], references: [id])  
+  item             Item          @relation(fields: [itemId], references: [id] )  
   dataUpload       DateTime      @default(now())
 }
