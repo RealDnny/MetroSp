@@ -51,7 +51,25 @@ class AdminModel {
           return HandleResponse(500, "Falha ao remover item", { error: error.message });
         }
       }
+/*
+      static async removerPost(id){
+        if(!id){
+          return HandleResponse(500,'id invalido ou não fornecido')
+        }
+        try {
+          const post = await Prisma.item.findMany({where:{id:id},include:{user:true,images:true}})
+            if(!post){
+              return HandleResponse(404,'Post não encontrado')
+            }
 
+            let rp = await Prisma.item.deleteMany() 
+          console.debug(post)
+          //return HandleResponse(201,'Exple',post)
+        } catch (error) {
+          console.error('error ao remover post : '+error.message)
+          return HandleResponse(500,'Erro ao remover os posts '+error.message)
+        }
+      }*/
     static async listarTodosItensAchadosAdmin(){
         try {
             const listaAchado = await Prisma.item.findMany({where:{status:'found'}, include:{user:true,images:true}})
@@ -76,6 +94,20 @@ class AdminModel {
         } catch (error) {
             return HandleResponse(500,'Erro ao listar os itens perdidos '+error.message)
         }
+    }
+    static async listarTodosPosts(){
+      try {
+          const post = await Prisma.item.findMany({
+            include:{
+              user:true,
+              images:true
+            }
+          })
+          return HandleResponse(201, 'Lista de posts ', post)
+      } catch (error) {
+        console.error('error ao post : '+error.message)
+        return HandleResponse(500,'Erro ao listar os posts '+error.message)
+      }
     }
 
     }

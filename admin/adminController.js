@@ -32,15 +32,28 @@ class adminController {
         }
     }
 
+    static async ListarTodosPosts(req,res){
+        try {
+            const post = await AdminModel.listarTodosPosts()
+            return res.status(post.status).json({message:post.message, posts:post.details})
+        } catch (error) {
+            console.error('Erro no Post: '+error.message)
+            return res.status(500).json({message:'Falha interno do Servidor '+error.message})
+        }
+    }
 
-
-    static async removerItem(req,res){
+    static async RemoverItem(req,res){
 
         const ID = parseInt(req.params.id)
             const item = await AdminModel.removerItem(ID)    
             return res.status(item.status).json({message: item.message})        
     }
     
+    static async RemoverPost(req,res){
+        const ID = parseInt( req.params.id)
+        const Rpost =await AdminModel.removerPost(ID)
+        return res.status(Rpost.status).json({message:Rpost.message, tes:Rpost.details})
+    }
 
 }export default adminController
     

@@ -15,8 +15,9 @@ controllerRoutes.get('/admin',Admin.index)
 controllerRoutes.get('/admin/users',Admin.listaUser)
 controllerRoutes.get('/admin/item/perdidos',Admin.ListarTodosItensPerdidosAdmin)
 controllerRoutes.get('/admin/item/achados',Admin.ListarTodosItensAchadosAdmin)
-controllerRoutes.delete('/admin/item/delete/:id',Admin.removerItem)
-//controllerRoutes.delete('/admin/post/delete/:id',Admin.removerPost)
+controllerRoutes.get('/admin/post/lista',Admin.ListarTodosPosts)
+controllerRoutes.delete('/admin/item/delete/:id',Admin.RemoverItem)
+controllerRoutes.delete('/admin/post/delete/:id',Admin.RemoverPost)
 
 
 
