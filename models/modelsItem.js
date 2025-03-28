@@ -101,13 +101,14 @@ class modelItem {
         if(!statusItemAchado){
             return HandleResponse(404,'Item nao atualizado ', statusItemAchado)
         }
-        //IMPLEMENTAR O SISTEMA DE NOTIFICAÇÃO POR EMAIL
+        /*
+        IMPLEMENTAR O SISTEMA DE NOTIFICAÇÃO POR EMAIL
         try {
             await emailNotificacao.emailnotificacao()    
         } catch (error) {
             return console.error('Erro interno com o servidor de Email '+ error.message)
         }
-        
+        */
         
             return HandleResponse(200,'Status do item modificado ', itemAchado)
         } catch (error) {

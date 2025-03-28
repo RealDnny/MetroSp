@@ -1,5 +1,7 @@
 import Prisma from "../prismaClient.js"
+import bcrypt from 'bcrypt'
 import {HandleResponse} from '../HandleResponse.js'
+
 class AdminModel {
     //Users
     static async listarUser(){
@@ -17,7 +19,7 @@ class AdminModel {
     }
 
     //Itens
-    static async removerItem(id) {
+    static async removerItem(id, removerUser = false) {
         if (!id) {
           return HandleResponse(400, "ID inválido ou não fornecido");
         }
@@ -44,6 +46,13 @@ class AdminModel {
               id: id,
             },
           });
+
+          if(removerUser == true){
+            await Prisma.user.delete({where:{
+              id:item.userId
+            }})
+            return HandleResponse(200, "Item e o usuario foram removidos com sucesso");
+          }
     
           return HandleResponse(200, "Item removido com sucesso");
         } catch (error) {
@@ -51,50 +60,42 @@ class AdminModel {
           return HandleResponse(500, "Falha ao remover item", { error: error.message });
         }
       }
-/*
-      static async removerPost(id){
-        if(!id){
-          return HandleResponse(500,'id invalido ou não fornecido')
-        }
-        try {
-          const post = await Prisma.item.findMany({where:{id:id},include:{user:true,images:true}})
-            if(!post){
-              return HandleResponse(404,'Post não encontrado')
-            }
 
-            let rp = await Prisma.item.deleteMany() 
-          console.debug(post)
-          //return HandleResponse(201,'Exple',post)
-        } catch (error) {
-          console.error('error ao remover post : '+error.message)
-          return HandleResponse(500,'Erro ao remover os posts '+error.message)
-        }
-      }*/
-    static async listarTodosItensAchadosAdmin(){
+      static async listarTodosItensAchadosAdmin(){
         try {
-            const listaAchado = await Prisma.item.findMany({where:{status:'found'}, include:{user:true,images:true}})
-            console.table(listaAchado)
-            if(listaAchado.length == 0){
-                HandleResponse(404,'Sem item achados')
+            const listaAchado = await Prisma.item.findMany({
+                where: { status: 'found' },
+                include: { user: true, images: true }
+            });
+    
+            if (listaAchado.length === 0) {
+                return HandleResponse(404, 'Nenhum item encontrado');
             }
-               return HandleResponse(200,'itens achados',listaAchado)
+    
+            return HandleResponse(200, 'Itens achados', listaAchado);
         } catch (error) {
-            console.error('Error ao listar itens achados: '+error.message)
-            return HandleResponse(500,'Erro ao listar os itens achados '+error.message)
+            console.error('Erro ao listar itens achados: ' + error.message);
+            return HandleResponse(500, 'Erro ao listar itens achados: ' + error.message);
         }
     }
+    
     static async listarTodosItensPerdidosAdmin(){
         try {
-            const listaPerdidos = await Prisma.item.findMany({where:{status:'lost'}, include:{user:true,images:true}})
-            console.table(listaPerdidos)
-            if(listaPerdidos.length == 0){
-                HandleResponse(404,'Sem item perdido')
+            const listaPerdidos = await Prisma.item.findMany({
+                where: { status: 'lost' },
+                include: { user: true, images: true }
+            });
+    
+            if (listaPerdidos.length === 0) {
+                return HandleResponse(404, 'Nenhum item perdido encontrado');
             }
-               return HandleResponse(200,'itens perdidos',listaPerdidos)
+    
+            return HandleResponse(200, 'Itens perdidos', listaPerdidos);
         } catch (error) {
-            return HandleResponse(500,'Erro ao listar os itens perdidos '+error.message)
+            return HandleResponse(500, 'Erro ao listar itens perdidos: ' + error.message);
         }
     }
+    
     static async listarTodosPosts(){
       try {
           const post = await Prisma.item.findMany({
@@ -110,5 +111,41 @@ class AdminModel {
       }
     }
 
+     static async AddAdmin(data){
+    try {
+  
+      let adminExistente = await Prisma.Admin.findMany()
+        
+      if(adminExistente.length == 0){
+          
+          //verificar o email
+          const verificarEmail = await Prisma.Admin.findUnique({where:{email:data.email}})
+          
+          if(verificarEmail){
+            return HandleResponse(400, 'Existe um Admin com este email')
+          }
+
+          const hashSenha = bcrypt.hashSync(data.senha, 12)
+          await Prisma.Admin.create({data:{
+            nome:data.nome,
+            email:data.email,
+            senha:hashSenha,
+            status:data.status
+          }})
+          
+           return HandleResponse(201,'Admin criado com sucesso ')
+        }else{
+          return HandleResponse(400,'Ja existe um Admin cadastrado')
+        }
+
+     
+
+    } catch (error) {
+      
+        console.error('Falha ao criar um Admin /addAdmin/creat: '+error.message)
+        return HandleResponse(500,'Falha ao criar um Admin')
     }
+  }
+
+ }
     export default AdminModel

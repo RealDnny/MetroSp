@@ -42,3 +42,13 @@ model Image {
   item             Item          @relation(fields: [itemId], references: [id] )  
   dataUpload       DateTime      @default(now())
 }
+
+model Admin {
+  id                Int                   @id @default(autoincrement())
+  nome              String 
+  email             String                @unique
+  senha             String
+  status            String     
+  createAt          DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+}
