@@ -38,7 +38,9 @@ class LoginAdmin {
         const Payload = {
             user:login.nome,
             email: login.email,
-            status:login.status
+            status:login.status,
+            expiresIn: '1h'
+            
         }
 
         const Token = JWT.sign(Payload,process.env.SECRETjwt)

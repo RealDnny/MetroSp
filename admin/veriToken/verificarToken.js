@@ -1,4 +1,4 @@
-import { HandleResponse } from "../../HandleResponse.js"
+
 import JWT from 'jsonwebtoken'
 
 export function token(req,res,next){

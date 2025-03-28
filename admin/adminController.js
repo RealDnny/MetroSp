@@ -54,10 +54,15 @@ class adminController {
     }
 
     static async RemoverItem(req,res){
-
-        const ID = parseInt(req.params.id)
-            const item = await AdminModel.removerItem(ID,removerUser)    
+        try {
+            const ID = parseInt(req.params.id)
+            const item = await AdminModel.removerItem(ID)    
             return res.status(item.status).json({message: item.message})        
+            
+        } catch (error) {
+            console.error('Erro ao remover o Item /admin/item/delete '+error.message)
+            return res.status(500).json({message:'Falha ao remover o item'})
+        }
     }
 
     static async AddAdmin(req, res) {
