@@ -2,9 +2,9 @@ import modelItem from "../models/modelsItem.js";
 import Joi from "joi";
 
 const item_Schema = Joi.object({
-    name:Joi.string().min(6).required(),
+    name:Joi.string().required(),
     email:Joi.string().email().required(),
-    desc:Joi.string().min(10).required(),
+    desc:Joi.string().required(),
     status: Joi.string().valid('lost', 'found'),
     location: Joi.string().required()
 })
@@ -25,7 +25,7 @@ class UploadController {
                  name:req.body.name,
                  email:req.body.email,
                  desc:req.body.desc,
-                 status: req.body.status,
+                 status: req.body.status || null ,
                  location:req.body.location,
                  file: req.file
              }

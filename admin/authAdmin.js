@@ -9,7 +9,7 @@ class LoginAdmin {
     static async login (data){
         if(!data.email){
             return HandleResponse(200,'Email invalido ou nao informado')
-        }
+        } 
         
         if(!data.senha){
             return HandleResponse(200,'Senha invalido ou nao informado')

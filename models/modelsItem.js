@@ -8,7 +8,7 @@ function HandleResponse(status, message, details = null) {
 class modelItem {
     static async cadastrarNovoItem(data) {
         try {
-            const user = await prisma.User.findUnique({
+            let user = await prisma.User.findUnique({
                 where:{email:data.email}
             })
             if(!user){
@@ -34,7 +34,7 @@ class modelItem {
 
             const image = await prisma.Image.create({
                 data: {
-                    nameImg: data.file.originalname,
+                    nameImg: data.file.filename,
                     pathImg: data.file.destination, // Corrigido 'data.fle' para 'data.file'
                     itemId: item.id // Relaciona a imagem ao item
                 }

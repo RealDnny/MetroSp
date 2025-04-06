@@ -1,6 +1,8 @@
 import Prisma from "../prismaClient.js"
 import bcrypt from 'bcrypt'
 import {HandleResponse} from '../HandleResponse.js'
+import fs from 'fs'
+import { error } from "console"
 
 class AdminModel {
     //Users
@@ -28,7 +30,8 @@ class AdminModel {
           const item = await Prisma.item.findUnique({
             where: {
               id: id,
-            },
+              
+            },include:{images:true}
           });
     
           if (!item) {
@@ -47,6 +50,16 @@ class AdminModel {
             },
           });
 
+        item.images.forEach(image=>{
+          const path =`tmp/uploads/${image.nameImg}`
+          fs.unlink(path,(err)=>{
+            if (err) {
+              console.error('Erro ao Eliminar o arquivo tmp '+err.stack)
+            }else{
+              console.error(`Arquivo ${image.nameImg} eliminado com sucesso`)
+            }
+          })
+        })
           if(removerUser == true){
             await Prisma.user.delete({where:{
               id:item.userId

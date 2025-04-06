@@ -21,7 +21,7 @@ controllerRoutes.get('/admin/item/perdidos',token,Admin.ListarTodosItensPerdidos
 controllerRoutes.get('/admin/item/achados',token,Admin.ListarTodosItensAchadosAdmin)
 controllerRoutes.get('/admin/post/lista',token,Admin.ListarTodosPosts)
 controllerRoutes.post('/admin/createadmin',token,Admin.AddAdmin)
-controllerRoutes.delete('/admin/item/delete/:id',token,Admin.RemoverItem)
+controllerRoutes.delete('/admin/item/delete/:id',Admin.RemoverItem)
 controllerRoutes.post('/admin/login', Admin.LoginAdmin)
 
 
