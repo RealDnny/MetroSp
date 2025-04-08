@@ -1,56 +1,59 @@
-generator client {
-  provider = "prisma-client-js"
-}
+# MetroSP - Perdidos e Achados
 
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
+**MetroSP** é um aplicativo web  open source criado para facilitar o registro e a busca de itens perdidos e achados no metrô de São Paulo.
 
-model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  items     Item[]   // Relacionamento com os itens perdidos/achados
-}
+O projeto foi idealizado para ser simples, acessível e colaborativo — qualquer pessoa pode postar um item perdido ou encontrado, sem precisar de login.
 
-model Admin {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  role      String   // 'admin' ou outros níveis de acesso, se necessário
-}
+## Funcionalidades
 
-model Item {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String
-  status      String   // 'lost' ou 'found'
-  dateLost    DateTime @default()
-  locationId  Int
-  location    Location @relation(fields: [locationId], references: [id])
-  userId      Int?
-  user        User?    @relation(fields: [userId], references: [id])  // Usuário que cadastrou o item
-  proofs      Proof[]  // Provas (ex: fotos do item)
-}
+- Postagem de itens perdidos ou achados (sem necessidade de login)
+- Upload de imagens dos itens
+- Marcação de itens como recuperados com envio de prova
+- Visualização otimizada para dispositivos móveis (PWA)
+- Integração com pontos físicos de entrega
+- Suporte a dispositivos de rastreamento em itens importantes
 
-model Proof {
-  id       Int      @id @default(autoincrement())
-  imageUrl String
-  itemId   Int
-  item     Item     @relation(fields: [itemId], references: [id])
-}
+## Tecnologias utilizadas
 
-model Location {
-  id       Int      @id @default(autoincrement())
-  name     String   // Nome da estação de metrô
-  address  String?  // Endereço da estação (opcional)
-  items    Item[]   // Itens perdidos/encontrados nessa estação
-}
-  await Prisma.image.deleteMany({
-      where: {
-        itemId: id, // Dependendo do nome da chave estrangeira
-      },
-    });
+- **Frontend:** HTML, CSS, JavaScript, PWA
+- **Backend:** Node.js, Express, Prisma
+- **Banco de Dados:** PostgreSQL
+- **Hospedagem:** (ex: Vercel, Render, etc.)
+
+## Como rodar o projeto localmente
+
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/metrosp-perdidos-achados.git
+cd metrosp-perdidos-achados
+
+# Instale as dependências (backend)
+cd backend
+npm install
+
+# Configure o banco de dados (ex: PostgreSQL + Prisma)
+npx prisma migrate dev
+
+# Inicie o servidor
+npm run dev
+
+# Em outra aba, rode o frontend (separado ou embutido no mesmo projeto)
+```
+
+## Como contribuir
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b minha-feature`)
+3. Faça o commit das suas mudanças (`git commit -m 'feat: adicionei nova funcionalidade'`)
+4. Faça o push para a branch (`git push origin minha-feature`)
+5. Abra um Pull Request
+
+Contribuições são bem-vindas!
+
+## Licença
+
+Este projeto está licenciado sob os termos da **Licença MIT**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+**Desenvolvido por [Danilson Armando Alfredo](mailto:danilsonarmando9@gmail.com)**
