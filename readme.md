@@ -1,3 +1,4 @@
+![MetroSp - Perdidos e Achados](./banner-metrosp.jpg)
 # MetroSP - Perdidos e Achados
 
 **MetroSP** é um aplicativo web  open source criado para facilitar o registro e a busca de itens perdidos e achados no metrô de São Paulo.
@@ -57,3 +58,4 @@ Este projeto está licenciado sob os termos da **Licença MIT**. Veja o arquivo 
 ---
 
 **Desenvolvido por [Danilson Armando Alfredo](mailto:danilsonarmando9@gmail.com)**
+
