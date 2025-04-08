@@ -1,6 +1,5 @@
 ## Imagens do projeto
 
-![Banner do Projeto MetroSP](https://raw.githubusercontent.com/RealDnny/MetroSp/main/banner-metrosp.jpg)
 ![MetroSp - Perdidos e Achados](./banner-metrosp.jpg)
 # MetroSP - Perdidos e Achados
 
