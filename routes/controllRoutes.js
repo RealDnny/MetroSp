@@ -13,6 +13,8 @@ controllerRoutes.get('/perdidos', controllerItem.ListarTodosItensPerdidos)
 controllerRoutes.get('/achados', controllerItem.ListarTodosItensAchados)
 controllerRoutes.post('/file',upload.single('image'),uploadController.uploadcontroller)
 controllerRoutes.post('/marcar', controllerItem.marcarItemAchado)
+controllerRoutes.get('/listaitem',controllerItem.ItemLista)
+controllerRoutes.post('/pesquisaritem', controllerItem.PesquisarItem)
 //Rotas do Admin 
 
 controllerRoutes.get('/admin',token,Admin.index)

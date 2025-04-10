@@ -24,14 +24,13 @@ class modelItem {
 
             const item = await prisma.Item.create({
                 data: {
-                    name: data.file.filename,    
+                    name: data.nameItem,    
                     description: data.desc, // Corrigido 'descriptio' para 'description'
                     status: data.status, // 'lost' ou 'found'
                     location: data.location,
                     userId: user.id, // Associa o item ao usuário
                 }
             });
-
             const image = await prisma.Image.create({
                 data: {
                     nameImg: data.file.filename,
@@ -45,10 +44,30 @@ class modelItem {
             }
                 return HandleResponse(400, 'Falha ao postar item');
         } catch (error) {
+            console.error('Erro ->'+error+message)
             return HandleResponse(404, 'Erro ao Postar um item ' + error.message);
         }
     }
 
+    static async itemLista(){
+     try {
+         const itens = await prisma.item.findMany({
+             include:{
+                 user:true,
+                 images:true
+             }
+         })
+
+        if(itens.length == 0){
+            return HandleResponse (404,'Nenhum item registrado')
+        }
+
+        return HandleResponse(200,' Todos os itens registrados ', itens)
+     } catch (error) {
+        console.error(error.message)
+        return HandleResponse(500,' Erro ao listar dos os itens ')
+     }
+    }
     static async listarTodosItensPerdidos(){
         try {
             const itens = await prisma.item.findMany({where:{status:'lost'}, 
@@ -77,7 +96,6 @@ class modelItem {
             return HandleResponse(500,'Erro ao listar os itens achados '+error.message)
         }
     }
-
     static async MarcarItemComoAchado(data){
         try {
             const itemAchado = await prisma.Item.findUnique({
@@ -114,6 +132,17 @@ class modelItem {
         } catch (error) {
             return HandleResponse(500,'Erro ao atualizar o status do item '+error.message)
         }    
+    }
+
+    static async pesquisarItem (data){
+        const response = await prisma.item.findFirst({
+            where:{name:data.nomeItem}
+        })
+        if (!response) {
+            return HandleResponse(404, 'Item nao encontrado', response)    
+        }
+        return HandleResponse(200, 'Resultado da pesquisa', response)
+    
     }
 }
  
